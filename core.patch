@@ -83,20 +83,21 @@
    // requiring BrowserProcess to have knowledge of them.
 --- a/chrome/browser/browser_process_impl.cc
 +++ b/chrome/browser/browser_process_impl.cc
-@@ -198,6 +198,12 @@
- #include "components/supervised_user/core/browser/android/android_parental_controls.h"
- #include "components/webauthn/android/webauthn_client_android.h"
- 
+@@ -101,6 +101,13 @@
+ #include "chrome/common/url_constants.h"
+ #include "chrome/grit/branded_strings.h"
+ #include "chrome/installer/util/google_update_settings.h"
++
 +// chromium-adblock
 +#include "chrome/browser/brave_shields/ad_block_subscription_download_manager_getter.h"
 +#include "components/brave_shields/content/browser/ad_block_service.h"
 +#include "components/brave_shields/content/browser/ad_block_subscription_service_manager.h"
 +#include "components/brave_shields/core/common/features.h"
 +
- namespace chrome_browser_prefs {
- void OnLocalStatePrefsLoaded();
- }  // namespace chrome_browser_prefs
-@@ -725,6 +731,9 @@ void BrowserProcessImpl::PostDestroyThre
+ #include "components/activity_reporter/activity_reporter.h"
+ #include "components/application_locale_storage/application_locale_storage.h"
+ #include "components/breadcrumbs/core/application_breadcrumbs_logger.h"
+@@ -725,6 +732,9 @@ void BrowserProcessImpl::PostDestroyThre
  #endif
  
    features_->PostDestroyThreads();
@@ -106,7 +107,7 @@
  }
  #endif  // !BUILDFLAG(IS_ANDROID)
  
-@@ -1349,6 +1358,21 @@ StatusTray* BrowserProcessImpl::status_t
+@@ -1349,6 +1359,21 @@ StatusTray* BrowserProcessImpl::status_t
    return status_tray_.get();
  }
  
@@ -1140,15 +1141,17 @@
  allow_first_party_usage = false
  extra_kv = { allow_unsafe = true }
  
-@@ -340,7 +338,6 @@ remove_deps = ['winapi']
+@@ -340,8 +338,8 @@ remove_deps = ['winapi']
  extra_kv = { allow_unsafe = true }
  
  [crate.getrandom]
 -group = 'test'
  allow_first_party_usage = false
++extra_input_roots = ['../README.md']
  
  # TODO: Remove multiple versions of the `getrandom` crate:
-@@ -788,12 +785,16 @@ allow_unsafe = false
+ # getrandom@0.3.4, getrandom@0.4.1
+@@ -788,12 +786,16 @@ allow_unsafe = false
  [crate.termcolor.extra_kv]
  allow_unsafe = false
  
@@ -1167,7 +1170,15 @@
  
  [crate.timezone_provider]
  extra_input_roots = ["**/*.data"]
-@@ -922,3 +923,125 @@ extra_kv = { allow_unsafe = true }
+@@ -895,6 +897,7 @@ allow_unsafe = false
+ 
+ [crate.zerocopy]
+ allow_first_party_usage = false
++extra_input_roots = ['../benches/transmute.x86-64']
+ extra_kv = { allow_unsafe = true }
+ 
+ [crate.zerofrom.extra_kv]
+@@ -922,3 +925,125 @@ extra_kv = { allow_unsafe = true }
  [crate.zoneinfo64]
  extra_input_roots = ["data/zoneinfo64.res"]
  extra_kv = { allow_unsafe = true }
